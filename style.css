@@ -1,0 +1,401 @@
+/* 1. Global Reset & Fonts */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #e3f2fd; /* <--- Changed to Soft Light Blue */
+  color: #333;
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+  min-height: 100vh;
+}
+
+/* 2. The Main Container */
+.container {
+  background: #2d3436;
+  color: white;
+  width: 100%;
+  max-width: 800px; /* <--- Changed from 600px to 800px */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 3. Header Section */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  color: #ffffff; /* <--- Changed to white so it shows on grey */
+  font-size: 1.8rem;
+}
+
+/* Filter Buttons (All, Active, Completed) */
+.filter-buttons button {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 10px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.filter-buttons button.active,
+.filter-buttons button:hover {
+  background-color: #e0e7ff;
+  color: #4f46e5; /* Nice indigo color */
+}
+
+/* 4. Input Section (The Form) */
+.input-group {
+  display: flex;
+  align-items: center; /* <--- This is the magic fix */
+  gap: 10px;
+  margin-bottom: 2rem;
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+/* Styling the text input */
+#task-input {
+  flex: 2; /* Takes up twice as much space as other items */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+}
+
+/* Styling the date and priority inputs */
+#date-input,
+#priority-input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* The Add Button */
+#add-btn {
+  padding: 10px 20px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+
+  /* This pushes the button away from the right edge */
+  margin-left: 168px;
+}
+
+#add-btn:hover {
+  background-color: #4338ca;
+}
+
+/* 5. The List Items (We will create these with JS later) */
+ul {
+  list-style: none;
+}
+
+/* This styles the list item (li) we will generate with JS */
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  transition: all 0.2s;
+}
+
+.todo-item:last-child {
+  border-bottom: none;
+}
+
+.todo-item:hover {
+  background-color: #fafafa;
+}
+
+/* Task Text & Details */
+.task-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.task-date {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+/* Priority Badges */
+.badge {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 8px;
+  text-transform: capitalize;
+}
+
+.badge-low {
+  background: #d1fae5;
+  color: #065f46;
+}
+.badge-medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+.badge-high {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Completed State (Strike-through) */
+.completed .task-text {
+  text-decoration: line-through;
+  color: #ccc;
+}
+
+/* Delete Button Styling */
+.task-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: #ff6b6b; /* Red color for delete */
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+
+.delete-btn:hover {
+  color: #c0392b; /* Darker red on hover */
+}
+
+/* Completed Task Styling */
+/* When a task has the class 'completed', fade it out and strike the text */
+.todo-item.completed {
+  opacity: 0.5;
+  background-color: #f0f0f0; /* Light grey background */
+}
+
+.todo-item.completed .task-text {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* FIX: Force dark text on white backgrounds */
+.todo-item,
+input,
+select {
+  color: #333 !important; /* Dark Grey text */
+}
+
+/* Ensure the task date is a slightly lighter grey, not white */
+.task-date {
+  color: #666 !important;
+}
+
+/* NEW: Header Actions Styling */
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: flex-end; /* Pushes buttons to the right */
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+#sort-btn {
+  background-color: #3b82f6; /* Blue */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+#clear-btn {
+  background-color: #ef4444; /* Red */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+#sort-btn:hover {
+  background-color: #2563eb;
+}
+#clear-btn:hover {
+  background-color: #dc2626;
+}
+
+/* Edit Button Styling */
+.edit-btn {
+  background: none;
+  border: none;
+  color: #3b82f6; /* Blue for edit */
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-right: 8px; /* Space between edit and delete */
+  transition: color 0.2s;
+}
+
+.edit-btn:hover {
+  color: #2563eb; /* Darker blue */
+}
+
+/* When in "Edit Mode", the input inside the list needs to look good */
+.edit-mode-input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+/* 1. Empty State Styling */
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #888;
+  display: none; /* Hidden by default */
+}
+
+.empty-state i {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color: #e0e0e0;
+}
+
+/* 2. Slide In Animation (For new tasks) */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Update the existing .todo-item to use this animation */
+.todo-item {
+  animation: slideIn 0.3s ease;
+  transition: all 0.5s ease; /* Needed for the delete animation */
+}
+
+/* 3. Fall Animation (For deleted tasks) */
+/* We add this class via JavaScript when deleting */
+.fall {
+  transform: translateX(10rem) rotateZ(20deg);
+  opacity: 0;
+}
+
+/* =========================================
+   FINAL POLISH: BUTTONS & DATE INPUTS
+   (Replace the media query at bottom of style.css)
+   ========================================= */
+
+@media (max-width: 768px) {
+  /* 1. STOP SCREEN FROM MOVING */
+  html,
+  body {
+    overflow-x: hidden !important;
+    width: 100%;
+    position: relative;
+  }
+
+  .container {
+    width: 100% !important;
+    padding: 15px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 2. FIX THE "ADD" BUTTON (Make it match inputs) */
+  #add-btn {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-top: 10px !important; /* Space above button */
+    height: 50px !important; /* Tall and easy to tap */
+    display: flex !important; /* Flexbox for centering */
+    justify-content: center !important; /* Center text */
+    align-items: center !important;
+    gap: 10px; /* Space between icon and text */
+    font-size: 1rem !important;
+  }
+
+  /* 3. FIX THE INPUTS (Stop them growing) */
+  input,
+  select {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 10px 0 !important;
+    box-sizing: border-box !important;
+    height: 50px !important; /* Match button height */
+    padding: 10px !important;
+  }
+
+  /* 4. FIX THE DATE "GREY BOX" ON IPHONE */
+  input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: white !important;
+    color: #333 !important;
+    border: 1px solid #ccc !important;
+    border-radius: 6px !important;
+    line-height: 50px; /* Centers text vertically */
+    display: block;
+  }
+
+  /* 5. STACK THE LAYOUT */
+  header,
+  .header-top,
+  .header-actions,
+  .input-group,
+  .todo-item {
+    display: flex;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    gap: 15px !important;
+  }
+
+  /* 6. HANDLE LONG TEXT */
+  .task-content,
+  .todo-item,
+  p,
+  span {
+    white-space: normal !important;
+    word-break: break-word !important;
+  }
+}
